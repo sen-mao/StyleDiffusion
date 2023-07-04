@@ -935,19 +935,23 @@ if __name__=="__main__":
     parser.add_argument('--num_inner_steps', type=int, default=100, help='inner steps')
     parser.add_argument('--num_epoch', type=int, default=1, help='total trining epoch')
     parser.add_argument('--image_info', type=ast.literal_eval, default='[]')
-    parser.add_argument('--w_attnloss', type=bool, default=False, help="w/ or w/o attention loss")
+    parser.add_argument('--w_attnloss', type=bool, default=True, help="w/ or w/o attention loss")
     parser.add_argument('--use_wandb', type=bool, default=False, help="use wandb")
     # params for eval (edit)
     parser.add_argument('--edit_type', type=str, default='Refinement', choices=['StoreAttn', 'Replacement', 'Refinement'])
     args = parser.parse_args()
-    print(args)
 
     IS_TRAIN = args.is_train
+    if IS_TRAIN:
+        del args.edit_type
+    else:
+        del args.use_wandb
+    print(args)
 
     use_wandb = args.use_wandb
     # https://github.com/wandb/wandb/issues/1185#issuecomment-829708005
     # wandb offline / wandb sync
-    if use_wandb and IS_TRAIN:
+    if IS_TRAIN and use_wandb:
         wandb.login(key='')
         wandb.init(project="edit_w_ptp")
 
