@@ -1,0 +1,16 @@
+clip @ git+https://github.com/openai/CLIP.git@d50d76daa670286dd6cacf3bcd80b5e4823fc8e1
+scikit-image==0.19.3
+scipy==1.9.3
+tokenizers==0.12.1
+torch==1.12.1+cu113
+torchaudio==0.12.1+cu113
+torchvision==0.13.1+cu113
+tqdm==4.64.1
+transformers==4.25.1
+wandb==0.13.6
+xformers @ git+https://github.com/facebookresearch/xformers.git@e773f9dd362e64b810ac8597010169a2fa44b1db
+diffusers
+transformers
+ftfy
+opencv-python
+ipywidgets
