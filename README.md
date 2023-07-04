@@ -25,14 +25,14 @@ pip install -r requirements.txt
 training mapping-network of StyleDiffusion.
 
 ```
-python edit_w_ptp_v_clip.py --is_train True --idx 2 --num_inner_steps 20
+python edit_w_ptp_v_clip.py --is_train True --idx 2 --num_inner_steps 100
 ```
 
 ## Editing real image
 
 editing real image using trained model.
 ```
-python edit_w_ptp_v_clip.py --is_train False --idx 2 --num_inner_steps 20 \
+python edit_w_ptp_v_clip.py --is_train False --idx 2 --num_inner_steps 100 \
                              --edit_type Replacement
 ```
 
