@@ -97,7 +97,6 @@ class LocalBlend:
         self.counter = 0
         self.th = th
 
-
 class EmptyControl:
 
     def step_callback(self, x_t):
@@ -108,7 +107,6 @@ class EmptyControl:
 
     def __call__(self, attn, is_cross: bool, place_in_unet: str):
         return attn
-
 
 class AttentionControl(abc.ABC):
 
@@ -155,7 +153,6 @@ class AttentionControl(abc.ABC):
         self.num_att_layers = -1
         self.cur_att_layer = 0
 
-
 class SpatialReplace(EmptyControl):
 
     def step_callback(self, x_t):
@@ -167,7 +164,6 @@ class SpatialReplace(EmptyControl):
     def __init__(self, stop_inject: float):
         super(SpatialReplace, self).__init__()
         self.stop_inject = int((1 - stop_inject) * NUM_DDIM_STEPS)
-
 
 class AttentionStore(AttentionControl):
 
@@ -280,7 +276,6 @@ class AttentionReplace(AttentionControlEdit):
         super(AttentionReplace, self).__init__(prompts, num_steps, cross_replace_steps, self_replace_steps, uncond_self_replace_steps, local_blend)
         self.mapper = seq_aligner.get_replacement_mapper(prompts, tokenizer).to(device)
 
-
 class AttentionRefine(AttentionControlEdit):
 
     def replace_cross_attention(self, attn_base, att_replace):
@@ -297,7 +292,6 @@ class AttentionRefine(AttentionControlEdit):
         self.mapper, alphas = self.mapper.to(device), alphas.to(device)
         self.alphas = alphas.reshape(alphas.shape[0], 1, 1, alphas.shape[1])
 
-
 class AttentionReweight(AttentionControlEdit):
 
     def replace_cross_attention(self, attn_base, att_replace):
@@ -313,7 +307,6 @@ class AttentionReweight(AttentionControlEdit):
                                                 local_blend)
         self.equalizer = equalizer.to(device)
         self.prev_controller = controller
-
 
 def get_equalizer(text: str, word_select: Union[int, Tuple[int, ...]], values: Union[List[float],
                                                                                      Tuple[float, ...]]):
@@ -338,7 +331,6 @@ def aggregate_attention(attention_store: AttentionStore, prompts: List[str], res
     out = torch.cat(out, dim=0)
     out = out.sum(0) / out.shape[0]
     return out.cpu()
-
 
 def make_controller(prompts: List[str], is_replace_controller: bool, cross_replace_steps: Dict[str, float],
                     self_replace_steps: float, uncond_self_replace_steps: float, blend_words=None, equilizer_params=None) -> AttentionControlEdit:
@@ -528,10 +520,9 @@ class Trainer(AttentionStore):
         # clip image encoder
         self.clip_model, clip_preprocess = clip.load('ViT-B/16', device=self.device)
         self.clip_preprocess = clip_preprocess
-        self.preprocess = transforms.Compose([transforms.Normalize(mean=[-1.0, -1.0, -1.0], std=[2.0, 2.0,
-                                                                                                 2.0])] +  # Un-normalize from [-1.0, 1.0] (GAN output) to [0, 1].
-                                             clip_preprocess.transforms[:2] +                              # to match CLIP input scale assumptions
-                                             clip_preprocess.transforms[4:])                               # + skip convert PIL to tensor
+        self.preprocess = transforms.Compose([transforms.Normalize(mean=[-1.0, -1.0, -1.0], std=[2.0, 2.0, 2.0])] +  # Un-normalize from [-1.0, 1.0] (GAN output) to [0, 1].
+                                             clip_preprocess.transforms[:2] +                                        # to match CLIP input scale assumptions
+                                             clip_preprocess.transforms[4:])                                         # + skip convert PIL to tensor
 
         self.image = None
         self.embedding = []
@@ -595,7 +586,6 @@ class Trainer(AttentionStore):
     #         for block in self.embedding[self.i].values():
     #             context = block(context)
     #     return context
-
 
 class VaeInversion:
 
@@ -926,7 +916,7 @@ def run_and_display(prompts, trainer, controller, latent=None, run_baseline=Fals
         ptp_utils_v.view_images(images)
     return images, x_t
 
-# Ours inversion and editing
+# Our inversion and editing
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--is_train', type=bool, default=False, help='train or eval?')
