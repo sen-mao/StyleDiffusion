@@ -772,8 +772,7 @@ class VaeInversion:
                     noise_pred_cond = self.get_noise_pred_single(latent_cur, t, cond_embeddings)
                     noise_pred = noise_pred_uncond + GUIDANCE_SCALE * (noise_pred_cond - noise_pred_uncond)
                     latents_prev_rec = self.prev_step(noise_pred, t, latent_cur)
-                    latent_loss = nnf.mse_loss(latents_prev_rec, latent_prev) \
-                                  # + nnf.mse_loss(latents_prev_rec, latent_cur)
+                    latent_loss = nnf.mse_loss(latents_prev_rec, latent_prev)
                     if use_wandb: wandb.log({'latent loss': latent_loss.item()})
                     # cross-attn loss
                     for attn_key in list(trainer.attention_store.keys()):
