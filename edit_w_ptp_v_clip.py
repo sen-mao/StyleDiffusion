@@ -26,7 +26,7 @@ clip.model.VisionTransformer = VisionTransformer
 scheduler = DDIMScheduler(beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear", clip_sample=False, set_alpha_to_one=False)
 MY_TOKEN = ''
 LOW_RESOURCE = True
-NUM_DDIM_STEPS = 50
+NUM_DDIM_STEPS = 25
 GUIDANCE_SCALE = 7.5
 MAX_NUM_WORDS = 77
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
@@ -929,24 +929,19 @@ def run_and_display(prompts, trainer, controller, latent=None, run_baseline=Fals
 # Ours inversion and editing
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--is_train', type=bool, default=False, help='train or eval?')
+    parser.add_argument('--is_train', type=bool, default=True, help='train or eval?')
     parser.add_argument('--idx', type=int, default=2, help='image_index')
     parser.add_argument('--batch_size', type=int, default=1, help='batch size')
     parser.add_argument('--num_inner_steps', type=int, default=100, help='inner steps')
     parser.add_argument('--num_epoch', type=int, default=1, help='total trining epoch')
     parser.add_argument('--image_info', type=ast.literal_eval, default='[]')
     parser.add_argument('--w_attnloss', type=bool, default=True, help="w/ or w/o attention loss")
-    parser.add_argument('--use_wandb', type=bool, default=False, help="use wandb")
+    parser.add_argument('--use_wandb', type=bool, default=True, help="use wandb")
     # params for eval (edit)
     parser.add_argument('--edit_type', type=str, default='Refinement', choices=['StoreAttn', 'Replacement', 'Refinement'])
     args = parser.parse_args()
 
     IS_TRAIN = args.is_train
-    if IS_TRAIN:
-        del args.edit_type
-    else:
-        del args.use_wandb
-    print(args)
 
     use_wandb = args.use_wandb
     # https://github.com/wandb/wandb/issues/1185#issuecomment-829708005
@@ -954,6 +949,12 @@ if __name__=="__main__":
     if IS_TRAIN and use_wandb:
         wandb.login(key='')
         wandb.init(project="edit_w_ptp")
+
+    if IS_TRAIN:
+        del args.edit_type
+    else:
+        del args.use_wandb
+    print(args)
 
     # w/ attn
     if args.w_attnloss:
