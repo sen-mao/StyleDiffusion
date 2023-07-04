@@ -892,6 +892,7 @@ def text2image_ldm_stable(
     uncond_embeddings = model.text_encoder(uncond_input.input_ids.to(model.device))[0]
 
     latent, latents = ptp_utils_v.init_latent(latent, model, height, width, generator, batch_size)
+    # image_latents = [vae_inversion.latent2image(latents[0].unsqueeze(dim=0))[0]]
     model.scheduler.set_timesteps(num_inference_steps)
     for i, t in enumerate(tqdm(model.scheduler.timesteps[-start_time:])):
         trainer.I = i
@@ -899,6 +900,11 @@ def text2image_ldm_stable(
             if i < NUM_DDIM_STEPS * trainer.v_replace_steps else None
         context = (uncond_embeddings, text_embeddings)
         latents = ptp_utils_v.diffusion_step(model, controller, latents, context, t, guidance_scale, low_resource=LOW_RESOURCE,)
+        # image_latents += [vae_inversion.latent2image(latents[0].unsqueeze(dim=0))[0]]
+
+    # os.makedirs('latent_save', exist_ok=True)
+    # for i, latent_i in enumerate(image_latents):
+    #     Image.fromarray(latent_i).save(f'latent_save/Z{NUM_DDIM_STEPS - i}_bar.png')
 
     if return_type == 'image':
         image = ptp_utils_v.latent2image(model.vae, latents)
@@ -923,7 +929,7 @@ def run_and_display(prompts, trainer, controller, latent=None, run_baseline=Fals
 # Ours inversion and editing
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--is_train', type=bool, default=True, help='train or eval?')
+    parser.add_argument('--is_train', type=bool, default=False, help='train or eval?')
     parser.add_argument('--idx', type=int, default=2, help='image_index')
     parser.add_argument('--batch_size', type=int, default=1, help='batch size')
     parser.add_argument('--num_inner_steps', type=int, default=100, help='inner steps')
