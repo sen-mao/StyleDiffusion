@@ -893,7 +893,6 @@ def text2image_ldm_stable(
     uncond_embeddings = model.text_encoder(uncond_input.input_ids.to(model.device))[0]
 
     latent, latents = ptp_utils_v.init_latent(latent, model, height, width, generator, batch_size)
-    image_latents = [vae_inversion.latent2image(latents[0].unsqueeze(dim=0))[0]]
     model.scheduler.set_timesteps(num_inference_steps)
     for i, t in enumerate(tqdm(model.scheduler.timesteps[-start_time:])):
         trainer.I = i
@@ -901,11 +900,6 @@ def text2image_ldm_stable(
             if i < NUM_DDIM_STEPS * trainer.v_replace_steps else None
         context = (uncond_embeddings, text_embeddings)
         latents = ptp_utils_v.diffusion_step(model, controller, latents, context, t, guidance_scale, low_resource=LOW_RESOURCE,)
-        image_latents += [vae_inversion.latent2image(latents[0].unsqueeze(dim=0))[0]]
-
-    os.makedirs('latent_save', exist_ok=True)
-    for i, latent_i in enumerate(image_latents):
-        Image.fromarray(latent_i).save(f'latent_save/Z{NUM_DDIM_STEPS - i}_bar.png')
 
     if return_type == 'image':
         image = ptp_utils_v.latent2image(model.vae, latents)
@@ -930,13 +924,13 @@ def run_and_display(prompts, trainer, controller, latent=None, run_baseline=Fals
 # Ours inversion and editing
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--is_train', type=bool, default=False, help='train or eval?')
+    parser.add_argument('--is_train', type=bool, default=True, help='train or eval?')
     parser.add_argument('--idx', type=int, default=2, help='image_index')
     parser.add_argument('--batch_size', type=int, default=1, help='batch size')
     parser.add_argument('--num_inner_steps', type=int, default=100, help='inner steps')
     parser.add_argument('--num_epoch', type=int, default=1, help='total trining epoch')
     parser.add_argument('--image_info', type=ast.literal_eval, default='[]')
-    parser.add_argument('--w_attnloss', type=bool, default=True, help="w/ or w/o attention loss")
+    parser.add_argument('--w_attnloss', type=bool, default=False, help="w/ or w/o attention loss")
     parser.add_argument('--use_wandb', type=bool, default=False, help="use wandb")
     # params for eval (edit)
     parser.add_argument('--edit_type', type=str, default='Refinement', choices=['StoreAttn', 'Replacement', 'Refinement'])
@@ -981,10 +975,8 @@ if __name__=="__main__":
         assert image_path is not [""] and prompts is not [""], print("training need image_path and prompts")
         print(f'index {args.idx} with batch size {args.batch_size}: image_path={image_path}, prompts={prompts}')
 
-        t = time.time()
         (image_gt, image_rec), x_t, trainer = vae_inversion.invert(image_path, prompts, offsets=(0,0,0,0), verbose=True,
                                                                    num_inner_steps=args.num_inner_steps, num_epoch=args.num_epoch)
-        print(f'inversion time: {(time.time() - t)}s')
         torch.save(trainer.embedding, model_path)
     else:
         trainer = Trainer()
