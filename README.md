@@ -64,6 +64,15 @@ tau_u: uncond_self_replace_steps
 It is commonly recommended to utilize the parameter values of tau_v=.5, tau_c=.6, tau_s=.6 and tau_u=.0. However, in situations where the target structure undergoes significant variations before and after editing, 
 adjusting the parameters to tau_v=.5, tau_c=.6, tau_s=.6 and tau_u=.5 or tau_v=.2, tau_c=.6, tau_s=.6 and tau_u=.5 optimizes performance.
 
+## NS-LPIPS
+
+Using the non-selected region mask, we compute the non-selected region LPIPS between a pair of real and edited images, named NS-LPIPS. A lower score on NS-LPIPS means that the non-selected region is more similar to the input image.
+```
+cd eval_metrics
+python storemask.py
+python ns_lpips.py
+```
+
 ## Citation
 
 ```bibtex
