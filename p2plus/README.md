@@ -11,7 +11,11 @@ python p2plus.py --seed '[2720,]' --prompt "a red mountain bike parked on top of
 
 ![Random Sample](../docs/uncondselfattn.png)
 
-*P2Plus: we propose to further perform the self-attention map replacement in  the unconditional branch based on P2P (called P2Plus), as well as in the conditional branch like P2P. P2P (the second column: w/o $\tau_u$) has not succeeded in replacing the tent with the tiger. Adding the injection parameter $\tau_u$ can help to edit successfully, especially if $\tau_u=0.5$. We also use the classifier-free guidance parameter $w=7.5$ like SD, when the weight $1-w$ of the unconditional branch is negative, which can gradually weaken the influence of the "tent" in the unconditional branch as $\tau_u$ increases from 0.2 to 1.0 (third to eighth columns).*
+P2Plus: we propose to further perform the self-attention map replacement in  the unconditional branch based on P2P (called P2Plus), as well as in the conditional branch like P2P. 
+P2P (the second column: w/o $\tau_u$) has not succeeded in replacing the tent with the tiger. 
+Adding the injection parameter $\tau_u$ can help to edit successfully, especially if $\tau_u=0.5$. 
+We also use the classifier-free guidance parameter $w=7.5$ like SD, when the weight $1-w$ of the unconditional branch is negative, 
+which can gradually weaken the influence of the "tent" in the unconditional branch as $\tau_u$ increases from 0.2 to 1.0 (third to eighth columns).
 
 
 ## Editing real image using Null-text with P2Plus

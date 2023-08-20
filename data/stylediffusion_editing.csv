@@ -1,0 +1,4 @@
+,case_number,prompt,image_path,url,target,blend_word,eq_params,tau_v,tau_c,tau_s,tau_u,edit_type
+0,0,a cat sitting next to a mirror,./example_images/gnochi_mirror.jpeg,,a tiger sitting next to a mirror,"[('cat',),('tiger',)]","[('tiger',),(2,)]","[.5,]","[.6,]","[.8,]","[.5,]",Replacement
+1,1,black and white dog playing red ball on black carpet,./example_images/black and white dog playing red ball on black carpet.jpg,https://unsplash.com/photos/b4BLUYKLzP4,black and white tiger playing red ball on black carpet,"[('dog',),('tiger',)]","[('tiger',),(2,)]","[.6,]","[.6,]","[.8,]","[.5,]",Replacement
+2,2,black and white cat on floor,./example_images/black and white cat on floor.jpg,https://unsplash.com/photos/93AcQpzcASE,black and white dog on floor,"[('cat',),('dog',)]","[('dog',),(2,)]","[.6,]","[.2,]","[.6,]","[.4,]",Replacement

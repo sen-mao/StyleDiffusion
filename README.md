@@ -25,14 +25,32 @@ pip install -r requirements.txt
 training mapping-network of StyleDiffusion.
 
 ```
-python edit_w_ptp_v_clip.py --is_train True --idx 2 --num_inner_steps 100
+python stylediffusion.py --is_train True --index 1 --prompt "black and white dog playing red ball on black carpet" \
+                         --image_path "./example_images/black and white dog playing red ball on black carpet.jpg"
+```
+
+or
+
+```
+python stylediffusion_csv.py --is_train True --prompts_path ./data/stylediffusion_prompts.csv --from_case 1 --end_case 2
 ```
 
 ## Editing real image
 
-editing real image using trained model.
+editing real image using trained mapping-network.
 ```
-python edit_w_ptp_v_clip.py --is_train '' --idx 2 --num_inner_steps 100 --edit_type Replacement
+python stylediffusion.py --is_train '' --index 1 --prompt "black and white dog playing red ball on black carpet" \
+                         --image_path "./example_images/black and white dog playing red ball on black carpet.jpg" \
+                         --target "black and white tiger playing red ball on black carpet" \
+                         --tau_v [.6,] --tau_c [.6,] --tau_s [.8,] --tau_u [.5,] \
+                         --blend_word "[('dog',), ('tiger',)]" --eq_params "[('tiger',), (2,)]" --edit_type Replacement
+```
+
+or
+
+```
+python stylediffusion_csv.py --is_train '' --prompts_path ./data/stylediffusion_editing.csv --save_path stylediffusion-images \
+                             --from_case 1 --end_case 2
 ```
 
 There are four parameters controlling of the attention injection:
