@@ -32,7 +32,8 @@ python stylediffusion.py --is_train True --index 1 --prompt "black and white dog
 or
 
 ```
-python stylediffusion_csv.py --is_train True --prompts_path ./data/stylediffusion_prompts.csv --from_case 1 --end_case 2
+python stylediffusion_csv.py --is_train True --prompts_path ./data/stylediffusion_prompts.csv \
+                             --from_case 1 --end_case 2
 ```
 
 ## Editing real image
