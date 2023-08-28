@@ -76,13 +76,11 @@ python ns_lpips.py
 ## Citation
 
 ```bibtex
-@misc{li2023stylediffusion,
-      title={StyleDiffusion: Prompt-Embedding Inversion for Text-Based Editing}, 
-      author={Senmao Li and Joost van de Weijer and Taihang Hu and Fahad Shahbaz Khan and Qibin Hou and Yaxing Wang and Jian Yang},
-      year={2023},
-      eprint={2303.15649},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@article{li2023stylediffusion,
+  title={StyleDiffusion: Prompt-Embedding Inversion for Text-Based Editing},
+  author={Li, Senmao and van de Weijer, Joost and Hu, Taihang and Khan, Fahad Shahbaz and Hou, Qibin and Wang, Yaxing and Yang, Jian},
+  journal={arXiv preprint arXiv:2303.15649},
+  year={2023}
 }
 ```
 
