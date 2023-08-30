@@ -9,7 +9,7 @@ tqdm==4.64.1
 transformers==4.25.1
 wandb==0.13.6
 xformers @ git+https://github.com/facebookresearch/xformers.git@e773f9dd362e64b810ac8597010169a2fa44b1db
-diffusers
+diffusers==0.8.0
 transformers
 ftfy
 opencv-python
