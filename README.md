@@ -50,7 +50,7 @@ python stylediffusion.py --is_train '' --index 1 --prompt "black and white dog p
 or
 
 ```
-python stylediffusion_csv.py --is_train '' --prompts_path ./data/stylediffusion_editing.csv --save_path stylediffusion-images \
+python stylediffusion_csv.py --is_train '' --prompts_path ./data/stylediffusion_editing.csv --save_path stylediffusion-results \
                              --from_case 1 --end_case 2
 ```
 
