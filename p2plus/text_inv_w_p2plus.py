@@ -701,7 +701,7 @@ if __name__=="__main__":
     parser.add_argument('--tau_u', type=ast.literal_eval, default='[.6,]', help='uncond_self_replace_steps')
     parser.add_argument('--blend_word', type=ast.literal_eval, default="[('tent',), ('tiger',)]")
     parser.add_argument('--eq_params', type=ast.literal_eval, default="[('tiger',), (2,)]")
-    parser.add_argument('--edit_type', type=str, default='Replacement', choices=['Replacement', 'Replacement', 'Refinement'])
+    parser.add_argument('--edit_type', type=str, default='Replacement', choices=['StoreAttn', 'Replacement', 'Refinement'])
     parser.add_argument("--outdir", type=str, nargs="?", help="dir to write results to", default="Text_inv_w_P2Plus_results")
     args = parser.parse_args()
     edit_type = args.edit_type
@@ -717,7 +717,7 @@ if __name__=="__main__":
         os.makedirs(outdir, exist_ok=True)
 
         controller = AttentionStore()
-        image_inv, x_t = run_and_display([prompt], controller, run_baseline=False, latent=x_t, cond_embeddings=cond_embeddings, verbose=True)
+        image_inv, x_t = run_and_display([prompt], controller, run_baseline=True, latent=x_t, cond_embeddings=cond_embeddings)
         print("showing from left to right: the ground truth image, the vq-autoencoder reconstruction, the null-text inverted image")
         ptp_utils.view_images([image_gt, image_enc, image_inv[0]], save_name=f'{outdir}/image')
         prompts = [prompt]
