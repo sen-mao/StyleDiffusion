@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 ## ⏳ Training ⌛
 <span id="training"></span>
-training mapping-network of StyleDiffusion.
+**1. Training mapping-network of StyleDiffusion with a detailed description text.**
 
 ```
 python stylediffusion.py --is_train True --index 1 --prompt "black and white dog playing red ball on black carpet" \
@@ -43,11 +43,29 @@ or
 python stylediffusion_csv.py --is_train True --prompts_path ./data/stylediffusion_prompts.csv \
                              --from_case 1 --end_case 2
 ```
+Trained mapping-network: [model_learnv](https://drive.google.com/drive/folders/11mGPGNhHqH_1TqqSjW9qUFVDL9Ks0Cla?usp=sharing)
+
+
+**2. Training mapping-network of StyleDiffusion with 1 word.**
+
+```
+python stylediffusion.py --is_train True --is_1word 1 --index 1 --prompt "dog" \
+                         --image_path "./example_images/black and white dog playing red ball on black carpet.jpg"
+```
+
+or
+
+```
+python stylediffusion_csv.py --is_train True --is_1word 1 --prompts_path ./data/stylediffusion_prompts_1word.csv \
+                             --from_case 1 --end_case 2
+```
+
+Trained mapping-network: [model_learnv_1word](https://drive.google.com/drive/folders/1EYjd02UZQwjAO6hl2dKmpEMteoFlN7jC?usp=sharing)
 
 ## 🎊 Editing real image
 <span id="editing-real-image"></span>
 
-editing real image using trained mapping-network.
+**1. Editing real image using trained mapping-network with a detailed description text.**
 ```
 python stylediffusion.py --is_train '' --index 1 --prompt "black and white dog playing red ball on black carpet" \
                          --image_path "./example_images/black and white dog playing red ball on black carpet.jpg" \
@@ -62,6 +80,24 @@ or
 python stylediffusion_csv.py --is_train '' --prompts_path ./data/stylediffusion_editing.csv --save_path stylediffusion-results \
                              --from_case 1 --end_case 2
 ```
+
+**2. Editing real image using trained mapping-network with 1 word.**
+```
+python stylediffusion.py --is_train '' --is_1word 1 --index 1 --prompt "dog" \
+                         --image_path "./example_images/black and white dog playing red ball on black carpet.jpg" \
+                         --target "tiger" \
+                         --tau_v [.6,] --tau_c [.6,] --tau_s [.8,] --tau_u [.5,] \
+                         --blend_word "[('dog',), ('tiger',)]" --eq_params "[('tiger',), (2,)]" --edit_type Replacement
+```
+
+or
+
+```
+python stylediffusion_csv.py --is_train '' --is_1word 1 --prompts_path ./data/stylediffusion_editing_1word.csv --save_path stylediffusion-results \
+                             --from_case 1 --end_case 2
+```
+
+![Random Sample](./docs/stylediffusion_results_1word.jpg)
 
 There are four parameters controlling of the attention injection:
 ```
