@@ -81,6 +81,8 @@ python stylediffusion_csv.py --is_train '' --prompts_path ./data/stylediffusion_
                              --from_case 1 --end_case 2
 ```
 
+![Random Sample](./docs/stylediffusion_results.jpg)
+
 **2. Editing real image using trained mapping-network with 1 word.**
 ```
 python stylediffusion.py --is_train '' --is_1word 1 --index 1 --prompt "dog" \
