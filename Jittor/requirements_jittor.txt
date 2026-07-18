@@ -1,0 +1,16 @@
+jittor==1.3.11.0
+numpy
+pillow
+opencv-python
+pandas
+scipy
+scikit-image
+tokenizers
+transformers
+diffusers>=0.26,<0.27
+safetensors
+tqdm
+wandb
+ipython
+ipywidgets
+certifi
